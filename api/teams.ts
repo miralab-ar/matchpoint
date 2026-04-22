@@ -14,6 +14,7 @@ import { notifyMany } from '../server/lib/notify';
 import { guestPlayerIdFromSlot, isGuestPlayerSlot, normalizeTeamPlayerSlots, parsePlayerSlot } from '../lib/playerSlots';
 import { assertGuestIdsBelongToTournament, resolveTwoSlotGenders } from '../server/lib/guestPlayersDb';
 import { tournamentIdMongoFilter } from '../server/lib/mongoTournamentIdFilter';
+import { insertTeamWithEntriesTx } from '../server/lib/insertTeamWithEntriesTx';
 
 function hasExplicitGroupIndex(raw: unknown): boolean {
   if (raw === undefined || raw === null) return false;
@@ -139,7 +140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const tidf = tournamentIdMongoFilter(tournamentId);
       const totalTeams = await col.countDocuments(tidf);
       if (totalTeams >= maxT) {
-        return corsRes.status(400).json({ error: 'Tournament is full (max teams reached)' });
+        return corsRes.status(400).json({ error: 'Tournament is full — join the team slot waitlist' });
       }
 
       const playerIdSet = new Set(cleanPlayerIds);
@@ -206,16 +207,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const now = new Date().toISOString();
-      const doc = {
-        tournamentId,
-        name,
-        playerIds: cleanPlayerIds,
-        groupIndex,
-        division: pairDivision,
-        createdBy,
-        createdAt: now,
-        updatedAt: now,
-      };
 
       const client = await getMongoClient();
       const session = client.startSession();
@@ -223,52 +214,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       try {
         await session.withTransaction(async () => {
           const tdb = client.db('matchpoint');
-          const teamsCol = tdb.collection('teams');
-          const ec = tdb.collection('entries');
-          const wc = tdb.collection('waitlist');
-          const result = await teamsCol.insertOne(doc, { session });
-          const ins = await teamsCol.findOne({ _id: result.insertedId }, { session });
-          inserted = ins as Record<string, unknown> | null;
-          const tidStr = result.insertedId.toString();
-          for (const pid of cleanPlayerIds) {
-            if (isGuestPlayerSlot(pid)) {
-              const gid = guestPlayerIdFromSlot(pid)!;
-              await ec.deleteMany({ ...tidf, guestPlayerId: gid, teamId: null }, { session });
-              await ec.insertOne(
-                {
-                  tournamentId,
-                  // Avoid unique index collisions on (tournamentId, userId) for guest entries.
-                  // This is not a real user id; guest identity is `guestPlayerId`.
-                  userId: pid,
-                  guestPlayerId: gid,
-                  teamId: tidStr,
-                  status: 'in_team',
-                  lookingForPartner: false,
-                  createdAt: now,
-                  updatedAt: now,
-                },
-                { session }
-              );
-            } else {
-              await ec.deleteMany({ ...tidf, userId: pid, teamId: null }, { session });
-              await ec.insertOne(
-                {
-                  tournamentId,
-                  userId: pid,
-                  teamId: tidStr,
-                  status: 'in_team',
-                  lookingForPartner: false,
-                  createdAt: now,
-                  updatedAt: now,
-                },
-                { session }
-              );
-            }
-          }
-          // Remove from waitlist across ALL divisions for this tournament (prevents stale WL rows after forming a team).
-          if (userIdsOnly.length) {
-            await wc.deleteMany({ ...tidf, userId: { $in: userIdsOnly } }, { session });
-          }
+          inserted = await insertTeamWithEntriesTx({
+            tdb,
+            session,
+            tournamentId,
+            name,
+            cleanPlayerIds,
+            pairDivision,
+            groupIndex,
+            createdBy,
+            now,
+          });
         });
       } finally {
         await session.endSession();
