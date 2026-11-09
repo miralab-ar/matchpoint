@@ -1,7 +1,7 @@
 /**
  * CORS + baseline security headers for Vercel API routes.
  *
- * - `CORS_ALLOWED_ORIGINS`: comma-separated list (e.g. `https://app.example.com,https://matchpoint.vercel.app`).
+ * - `CORS_ALLOWED_ORIGINS`: comma-separated list (e.g. `https://app.example.com,https://matchpoint.miralab.ar`).
  *   If set, requests whose `Origin` header matches an entry get that origin echoed; others get `*`.
  *   Mobile clients often omit `Origin`; they still receive `*` and work with Bearer auth.
  */

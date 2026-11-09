@@ -28,7 +28,6 @@ Set in **Vercel** → Project → **Settings** → **Environment Variables** (pe
 | `MONGODB_URI` | Atlas connection string; database name in code is `matchpoint` |
 | `GOOGLE_CLIENT_ID` | Should match the **Web** client used in the app |
 | `GOOGLE_ANDROID_CLIENT_ID` | Optional; Android token verification on backend |
-| `APPLE_CLIENT_ID` | Sign in with Apple (bundle/service ID as configured in Apple Developer) |
 | `APP_URL` | Public base URL for email links (verify, reset password) |
 | `JWT_SECRET` | **Required** on Vercel (`VERCEL=1`) and when `NODE_ENV=production`; used for session JWT, email verify, and reset tokens. Code throws if missing. Local dev may use an internal default when neither applies. |
 | `ADMIN_EMAILS` | comma-separated emails; on login, matching users get `role: 'admin'` in MongoDB (Vercel env) |

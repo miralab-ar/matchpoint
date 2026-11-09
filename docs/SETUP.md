@@ -6,7 +6,7 @@
 - **npm** (or compatible client)
 - **Expo tooling:** [Expo CLI](https://docs.expo.dev/get-started/installation/), [EAS CLI](https://docs.expo.dev/build/setup/) for device builds
 - **Backend:** MongoDB Atlas; Vercel account for API deployment
-- **OAuth:** Google Cloud project (Web + Android OAuth clients); Apple Developer for Sign in with Apple on iOS
+- **OAuth:** Google Cloud project (Web + Android OAuth clients)
 
 ---
 
