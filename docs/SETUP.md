@@ -13,7 +13,7 @@
 ## 1. Clone and install
 
 ```bash
-git clone https://github.com/octapf/matchpoint.git
+git clone https://github.com/miralab-ar/matchpoint.git
 cd matchpoint
 npm install
 ```

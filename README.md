@@ -4,7 +4,7 @@ Beach volleyball tournament app for **Android** (Play Store). Organizers create 
 
 **By [Miralab](https://miralab.ar)**
 
-[![CI](https://github.com/octapf/matchpoint/actions/workflows/ci.yml/badge.svg)](https://github.com/octapf/matchpoint/actions/workflows/ci.yml)
+[![CI](https://github.com/miralab-ar/matchpoint/actions/workflows/ci.yml/badge.svg)](https://github.com/miralab-ar/matchpoint/actions/workflows/ci.yml)
 
 ---
 
@@ -76,7 +76,7 @@ flowchart LR
 ## Quick start
 
 ```bash
-git clone https://github.com/octapf/matchpoint.git
+git clone https://github.com/miralab-ar/matchpoint.git
 cd matchpoint
 npm install
 cp .env.example .env   # fill EXPO_PUBLIC_* — see docs/SECRETS.md
