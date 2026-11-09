@@ -1,6 +1,6 @@
 # Matchpoint
 
-Beach volleyball tournament app for **Android** (Play Store). Organizers create invite-only tournaments; players join via links, form **2-person teams**, and manage entries. Includes **Google**, **Apple**, and **email** authentication.
+Beach volleyball tournament app for **Android** (Play Store). Organizers create invite-only tournaments; players join via links, form **2-person teams**, and manage entries. Includes **Google** and **email** authentication.
 
 **By [Miralab](https://miralab.ar)**
 
@@ -55,7 +55,7 @@ flowchart LR
 |-------|--------|
 | **Mobile** | Expo 55, React Native, Expo Router, NativeWind |
 | **State** | Zustand, TanStack Query |
-| **Auth** | Google, Apple, email (JWT + verification flows on API) |
+| **Auth** | Google, email (JWT + verification flows on API) |
 | **Backend** | Vercel serverless (`api/`) |
 | **Database** | MongoDB (`matchpoint` DB) |
 
@@ -69,7 +69,7 @@ flowchart LR
 - npm
 - [Expo / EAS](https://docs.expo.dev/) for builds
 - MongoDB Atlas + Vercel for the API
-- Google (and Apple for iOS) OAuth setup as in [docs/SECRETS.md](docs/SECRETS.md)
+- Google OAuth setup as in [docs/SECRETS.md](docs/SECRETS.md)
 
 ---
 
@@ -134,4 +134,4 @@ Play submission uses a **service account JSON** path in `eas.json`; keep that fi
 
 ## License
 
-Private — Miralab.
+© Miralab. All rights reserved.

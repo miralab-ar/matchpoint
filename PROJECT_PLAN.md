@@ -1,3 +1,5 @@
+> Documento histórico del plan inicial (marzo 2026).
+
 # Matchpoint MVP — Project Plan
 
 **Goal:** Launch a professional, simple beach volleyball tournament app on Play Store before **April 10, 2026**  
