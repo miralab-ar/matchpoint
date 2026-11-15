@@ -1,15 +1,32 @@
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider, type Theme } from '@react-navigation/native';
 import { Platform, View, StyleSheet } from 'react-native';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import {
+  BarlowCondensed_500Medium_Italic,
+  BarlowCondensed_600SemiBold_Italic,
+  BarlowCondensed_700Bold,
+  BarlowCondensed_700Bold_Italic,
+  BarlowCondensed_800ExtraBold,
+  BarlowCondensed_800ExtraBold_Italic,
+} from '@expo-google-fonts/barlow-condensed';
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+} from '@expo-google-fonts/inter';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import Colors from '@/constants/Colors';
+import { fonts } from '@/lib/theme/tokens';
 import { queryClient } from '@/lib/queryClient';
 import { I18nProvider, i18n, useTranslation } from '@/lib/i18n';
 import { useLanguageStore } from '@/store/useLanguageStore';
@@ -56,20 +73,57 @@ SplashScreen.preventAutoHideAsync();
 
 initAppObservability();
 
+/** Matchpoint is dark-only: navigation chrome always uses the brand neutrals. */
+const NAV_THEME: Theme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: Colors.yellow,
+    background: Colors.background,
+    card: Colors.background,
+    text: Colors.text,
+    border: Colors.border,
+    notification: Colors.live,
+  },
+};
+
+/** Shared stack header look (brand fonts, no hairline). */
+const HEADER_OPTIONS = {
+  headerTintColor: Colors.text,
+  headerStyle: { backgroundColor: Colors.background },
+  headerShadowVisible: false,
+  headerTitleStyle: { fontFamily: fonts.displayBoldItalic, fontSize: 22 },
+} as const;
+
 export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    BarlowCondensed_500Medium_Italic,
+    BarlowCondensed_600SemiBold_Italic,
+    BarlowCondensed_700Bold,
+    BarlowCondensed_700Bold_Italic,
+    BarlowCondensed_800ExtraBold,
+    BarlowCondensed_800ExtraBold_Italic,
+  });
+  const ready = fontsLoaded || !!fontError;
+
   // Required for OAuth: closes auth browser when redirect returns to app
   useEffect(() => {
     WebBrowser.maybeCompleteAuthSession();
   }, []);
   useEffect(() => {
-    void SplashScreen.hideAsync();
-  }, []);
+    if (ready) void SplashScreen.hideAsync();
+  }, [ready]);
 
+  if (!ready) return null;
   return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
   const { t } = useTranslation();
   const language = useLanguageStore((s) => s.language);
   const hasHydrated = useLanguageStore((s) => s._hasHydrated);
@@ -113,9 +167,9 @@ function RootLayoutNav() {
         <QueryClientProvider client={queryClient}>
           <View style={styles.rootFill}>
             <OfflineBanner />
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <ThemeProvider value={NAV_THEME}>
               <View style={styles.rootFill}>
-          <Stack screenOptions={{ headerShown: false }}>
+          <Stack screenOptions={{ headerShown: false, ...HEADER_OPTIONS, contentStyle: { backgroundColor: Colors.background }, animation: 'slide_from_right' }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
@@ -126,8 +180,7 @@ function RootLayoutNav() {
           options={{
             headerShown: true,
             title: t('common.tournament'),
-            headerTintColor: '#e5e5e5',
-            headerStyle: { backgroundColor: '#1a1a1a' },
+            ...HEADER_OPTIONS,
           }}
         />
         <Stack.Screen name="tournament/create" />
@@ -142,8 +195,7 @@ function RootLayoutNav() {
           options={{
             headerShown: true,
             title: t('tabs.myEntries'),
-            headerTintColor: '#e5e5e5',
-            headerStyle: { backgroundColor: '#1a1a1a' },
+            ...HEADER_OPTIONS,
           }}
         />
         <Stack.Screen
@@ -151,8 +203,7 @@ function RootLayoutNav() {
           options={{
             headerShown: true,
             title: t('profile.myData'),
-            headerTintColor: '#e5e5e5',
-            headerStyle: { backgroundColor: '#1a1a1a' },
+            ...HEADER_OPTIONS,
           }}
         />
         <Stack.Screen
@@ -160,11 +211,10 @@ function RootLayoutNav() {
           options={{
             headerShown: true,
             title: t('profile.publicProfileTitle'),
-            headerTintColor: '#e5e5e5',
-            headerStyle: { backgroundColor: '#1a1a1a' },
+            ...HEADER_OPTIONS,
           }}
         />
-        <Stack.Screen name="profile/change-password" options={{ headerShown: true, title: t('profile.changePassword') }} />
+        <Stack.Screen name="profile/change-password" options={{ headerShown: true, title: t('profile.changePassword'), ...HEADER_OPTIONS }} />
           </Stack>
               </View>
         </ThemeProvider>
