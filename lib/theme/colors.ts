@@ -115,17 +115,17 @@ export function readableTextOnBackground(bgHex: string, tokens: ThemeTextTokens)
 }
 
 const base: ThemeBaseTokens = {
-  background: '#1a1a1a',
-  surface: '#2d2d2d',
-  surfaceLight: '#3d3d3d',
-  border: '#3d3d3d',
+  background: '#121214',
+  surface: '#1c1c21',
+  surfaceLight: '#2a2a31',
+  border: '#2e2e36',
 };
 
 const text: ThemeTextTokens = {
   lightText: '#ffffff',
-  lightTextSecondary: '#e5e5e5',
-  darkText: '#111111',
-  darkTextSecondary: '#1a1a1a',
+  lightTextSecondary: '#d4d4d8',
+  darkText: '#111113',
+  darkTextSecondary: '#121214',
 };
 
 function buildAccentPair(primary: string, secondary: string): ThemeAccentTokens {
@@ -145,8 +145,9 @@ function buildAccentPair(primary: string, secondary: string): ThemeAccentTokens 
 export const THEME_PRESETS: Record<ThemePresetId, { id: ThemePresetId; label: string; tokens: ThemeTokens }> = {
   classic: {
     id: 'classic',
-    label: 'Retro Duo',
-    tokens: { ...base, ...text, ...buildAccentPair('#BC6FF1', '#892CDC') },
+    // Brand default (docs/marca.md): yellow "Punto" + violet "Saque".
+    label: 'Matchpoint',
+    tokens: { ...base, ...text, ...buildAccentPair('#FBBF24', '#8B5CF6') },
   },
   sport_blue: {
     id: 'sport_blue',

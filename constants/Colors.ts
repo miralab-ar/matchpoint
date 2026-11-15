@@ -1,15 +1,15 @@
 /**
- * Matchpoint color palette
- * Dark theme: yellow + violet highlights, dark grey background, light grey text
+ * Matchpoint color palette (see docs/marca.md → Color)
+ * Dark only: "court at night" neutrals + yellow (Punto) and violet (Saque) highlights.
  */
 
 const palette = {
-  background: '#1a1a1a',
-  surface: '#2d2d2d',
-  surfaceLight: '#3d3d3d',
-  text: '#e5e5e5',
-  textSecondary: '#a3a3a3',
-  textMuted: '#737373',
+  background: '#121214',
+  surface: '#1c1c21',
+  surfaceLight: '#2a2a31',
+  text: '#f4f4f5',
+  textSecondary: '#a1a1aa',
+  textMuted: '#71717a',
   yellow: '#fbbf24',
   yellowHover: '#fcd34d',
   violet: '#8b5cf6',
@@ -21,12 +21,16 @@ const palette = {
   avatarMale: '#93c5fd',
   avatarFemale: '#f9a8d4',
   avatarOther: '#6b7280',
+  /** Hairline borders / dividers */
+  border: '#2e2e36',
+  /** "En vivo" chip (broadcast red) */
+  live: '#ef4444',
   success: '#22c55e',
   error: '#ef4444',
   /** Carmesí / crimson — danger actions, delete, destructive (opaco) */
-  danger: '#b91c3c',
+  danger: '#e11d48',
   warning: '#f59e0b',
-  tabIconDefault: '#737373',
+  tabIconDefault: '#71717a',
   tabIconSelected: '#fbbf24',
 };
 
