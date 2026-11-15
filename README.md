@@ -1,6 +1,6 @@
 # Matchpoint
 
-Beach volleyball tournament app for **Android** (Play Store). Organizers create invite-only tournaments; players join via links, form **2-person teams**, and manage entries. Includes **Google** and **email** authentication.
+Beach volleyball tournament app for **Android**, published on [Google Play](https://play.google.com/store/apps/details?id=com.miralab.matchpoint). Organizers create invite-only tournaments; players join via links, form **2-person teams**, and manage entries. Includes **Google** and **email** authentication.
 
 **By [Miralab](https://miralab.ar)**
 
