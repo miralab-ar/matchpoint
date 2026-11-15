@@ -13,7 +13,7 @@ import XDate from 'xdate';
 import Colors from '@/constants/Colors';
 import { readableTextOnBackground } from '@/lib/theme/colors';
 import { useTheme } from '@/lib/theme/useTheme';
-import { useTranslation } from '@/lib/i18n';
+import { useTranslation, i18n, type Language } from '@/lib/i18n';
 import type { Tournament } from '@/types';
 import { eachLocalDayInclusive, formatTournamentDateRange, toISODate } from '@/lib/utils/dateFormat';
 import { useLanguageStore } from '@/store/useLanguageStore';
@@ -146,7 +146,7 @@ export function TournamentsCalendar({ tournaments }: Props) {
   const { tokens } = useTheme();
   const { t } = useTranslation();
   const router = useRouter();
-  const language = useLanguageStore((s) => s.language ?? 'en');
+  const language = useLanguageStore((s) => s.language ?? (i18n.locale as Language));
 
   // Set the locale during render (not in an effect) so the weekday header is
   // localized on the first paint too.

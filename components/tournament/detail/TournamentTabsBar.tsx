@@ -105,7 +105,7 @@ export function TournamentTabsBar({
 
       <View style={[tabBarStyle as never, { flexDirection: 'column' } as never]}>
         {divisionActionNode ? <View style={{ marginBottom: 10 }}>{divisionActionNode}</View> : null}
-        <View style={{ flexDirection: 'row', gap: 4 }} accessibilityRole="tablist">
+        <View style={{ flexDirection: 'row', gap: 2 }} accessibilityRole="tablist">
           {tabConfig.map(({ id: tabId, icon, labelKey }) => {
             const selected = activeTab === tabId;
             const tabValue = tabValueById[tabId] ?? '';
@@ -136,6 +136,8 @@ export function TournamentTabsBar({
                     tabLabelColorOverride ? ({ color: tabLabelColorOverride } as never) : null,
                   ]}
                   numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.8}
                 >
                   {t(labelKey)}
                 </Text>

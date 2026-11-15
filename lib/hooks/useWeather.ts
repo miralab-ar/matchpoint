@@ -5,11 +5,12 @@ import { tryGetDeviceLatLon } from '@/lib/weather/deviceLocation';
 import { fetchWeather, type LatLon } from '@/lib/weather/openMeteo';
 import { fetchLocationAreaName } from '@/lib/weather/reverseGeocode';
 import { useLanguageStore } from '@/store/useLanguageStore';
+import { i18n, type Language } from '@/lib/i18n';
 
 const WEATHER_REFRESH_MS = 30 * 60 * 1000;
 
 export function useWeather() {
-  const language = useLanguageStore((s) => s.language ?? 'en');
+  const language = useLanguageStore((s) => s.language ?? (i18n.locale as Language));
 
   const [coords, setCoords] = useState<LatLon>(() => ({
     lat: config.weather.defaultLat,

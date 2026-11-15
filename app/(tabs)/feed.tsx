@@ -6,7 +6,7 @@ import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery } from '@tanstack/react-query';
-import { useTranslation } from '@/lib/i18n';
+import { useTranslation, i18n, type Language } from '@/lib/i18n';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import Colors from '@/constants/Colors';
 import { TabScreenHeader } from '@/components/ui/TabScreenHeader';
@@ -113,7 +113,7 @@ export default function FeedScreen() {
   const { t } = useTranslation();
   const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
-  const language = useLanguageStore((s) => s.language ?? 'en');
+  const language = useLanguageStore((s) => s.language ?? (i18n.locale as Language));
   const userId = useUserStore((s) => s.user?._id ?? null);
   const { data: tournamentsList = [] } = useTournaments();
   const { data, isLoading, isError, error, refetch, isFetching, usedDeviceLocation, refreshLocation, locationAreaName } =

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n';
+import { Platform } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
@@ -42,8 +43,10 @@ export default function TabLayout() {
           borderTopColor: Colors.border,
           borderTopWidth: 1,
           elevation: 0,
+          // Web: the default 48px bar clips the label (Inter needs a taller line box).
+          ...(Platform.OS === 'web' ? { height: 62, paddingTop: 2, paddingBottom: 4 } : null),
         },
-        tabBarLabelStyle: { fontFamily: fonts.textSemiBold, fontSize: 11, letterSpacing: 0.2 },
+        tabBarLabelStyle: { fontFamily: fonts.textSemiBold, fontSize: 11, lineHeight: 14, letterSpacing: 0.2 },
         headerStyle: { backgroundColor: Colors.background },
         headerTintColor: Colors.text,
       }}

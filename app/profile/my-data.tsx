@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from '@/lib/i18n';
+import { useTranslation, i18n, type Language } from '@/lib/i18n';
 import {
   View,
   StyleSheet,
@@ -60,7 +60,7 @@ export default function MyDataScreen() {
   const insets = useSafeAreaInsets();
   const user = useUserStore((s) => s.user);
   const setUser = useUserStore((s) => s.setUser);
-  const language = useLanguageStore((s) => s.language ?? 'en');
+  const language = useLanguageStore((s) => s.language ?? (i18n.locale as Language));
   const setLanguage = useLanguageStore((s) => s.setLanguage);
 
   const [username, setUsername] = useState('');

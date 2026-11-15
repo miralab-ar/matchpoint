@@ -24,7 +24,7 @@ export const MOCK_DEV_GUEST_PLAYERS: TournamentGuestPlayer[] = [
   {
     _id: MOCK_DEV_GUEST_PLAYER_ID,
     tournamentId: DEV_TOURNAMENT_ID,
-    displayName: 'Local Guest (Dev)',
+    displayName: 'Invitada',
     gender: 'female',
     createdBy: 'mock-u-1',
     createdAt: TS,
@@ -34,12 +34,12 @@ export const MOCK_DEV_GUEST_PLAYERS: TournamentGuestPlayer[] = [
 
 export const MOCK_DEV_TOURNAMENT: Tournament = {
   _id: DEV_TOURNAMENT_ID,
-  name: 'Summer Beach Cup (Dev)',
+  name: 'Copa Verano Vóley Playa',
   date: '2026-07-15',
   startDate: '2026-07-15',
   endDate: '2026-07-15',
-  location: 'Barceloneta Beach',
-  description: 'Mock tournament for local development.',
+  location: 'Playa Grande, Mar del Plata',
+  description: 'Torneo mixto por parejas: fase de grupos y categorías Oro, Plata y Bronce.',
   // Keep mock data consistent with mock teams (mostly mixed pairs).
   divisions: ['mixed'],
   categories: ['Gold', 'Silver', 'Bronze'],
@@ -85,15 +85,16 @@ export const MOCK_DEV_TOURNAMENT: Tournament = {
   updatedAt: TS,
 };
 
-/** 16 players: firstName Seed1…Seed16, lastName Bot (matches DB seed naming) */
+/** 16 fictional players (invented first names + last initial; no real people). */
+const MOCK_FIRST_NAMES = ['Tomás', 'Lucía', 'Mateo', 'Sofía', 'Bruno', 'Valentina', 'Nico', 'Camila', 'Joaquín', 'Martina', 'Franco', 'Julieta', 'Santi', 'Abril', 'Lauti', 'Mora'];
+const MOCK_LAST_INITIALS = 'RMGPSLDFBCVTNAQE';
 export const MOCK_DEV_USERS: User[] = Array.from({ length: 16 }, (_, i) => {
   const n = i + 1;
-  const nn = String(n).padStart(2, '0');
   return {
     _id: `mock-u-${n}`,
-    username: `seed_player${nn}`,
-    firstName: `Seed${n}`,
-    lastName: 'Bot',
+    username: `${MOCK_FIRST_NAMES[i]} ${MOCK_LAST_INITIALS[i]}.`,
+    firstName: MOCK_FIRST_NAMES[i],
+    lastName: `${MOCK_LAST_INITIALS[i]}.`,
     gender: i % 2 === 0 ? ('male' as const) : ('female' as const),
     authProvider: 'google' as const,
     createdAt: TS,
@@ -156,7 +157,7 @@ export const MOCK_DEV_TEAMS: Team[] = [
   {
     _id: 'mock-team-6',
     tournamentId: DEV_TOURNAMENT_ID,
-    name: 'Need Partner A',
+    name: 'Busca pareja A',
     groupIndex: 2,
     playerIds: ['mock-u-11'],
     createdBy: 'mock-u-11',
@@ -166,7 +167,7 @@ export const MOCK_DEV_TEAMS: Team[] = [
   {
     _id: 'mock-team-7',
     tournamentId: DEV_TOURNAMENT_ID,
-    name: 'Need Partner B',
+    name: 'Busca pareja B',
     groupIndex: 3,
     playerIds: ['mock-u-12'],
     createdBy: 'mock-u-12',
