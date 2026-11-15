@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Pressable } from 'react-native';
+import { Text } from '@/components/ui/Text';
+import { Ionicons } from '@expo/vector-icons';
 import type { TournamentDivision } from '@/types';
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/lib/theme/useTheme';
+import { Icon } from '@/components/ui/Icon';
 
 export type TournamentTabId = 'players' | 'teams' | 'groups' | 'bets' | 'fixture';
 
@@ -67,7 +69,10 @@ export function TournamentTabsBar({
   const { tokens } = useTheme();
   return (
     <View style={tabsSectionStyle as never}>
-      <View style={divisionTabBarStyle as never} accessibilityRole="tablist">
+      <View
+        style={[divisionTabBarStyle as never, availableDivisions.length === 1 ? ({ alignSelf: 'flex-start' } as never) : null]}
+        accessibilityRole="tablist"
+      >
         {availableDivisions.map((division) => {
           const selected = currentDivision === division;
           const label =
@@ -117,7 +122,7 @@ export function TournamentTabsBar({
                 accessibilityState={{ selected }}
               >
                 {tabId === 'fixture' ? (
-                  <MaterialCommunityIcons name="volleyball" size={22} color={tabIconColor} />
+                  <Icon name="volleyball" size={22} color={tabIconColor} />
                 ) : (
                   <Ionicons name={icon as never} size={22} color={tabIconColor} />
                 )}

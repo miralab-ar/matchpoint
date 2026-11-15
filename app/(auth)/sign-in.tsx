@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '@/lib/i18n';
 import {
-  View, Text, StyleSheet, Platform, Alert, Linking,
-  Image, Pressable, TextInput, KeyboardAvoidingView, ScrollView,
+  View,
+  StyleSheet,
+  Platform,
+  Alert,
+  Linking,
+  Image,
+  Pressable,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Ionicons } from '@expo/vector-icons';

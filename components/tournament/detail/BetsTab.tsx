@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Modal, Alert } from 'react-native';
+import { View, Pressable, ScrollView, StyleSheet, Modal, Alert } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import type { TournamentBettingSnapshot, TournamentBettingMatchRow, User } from '@/types';
 import Colors from '@/constants/Colors';
 import { Avatar } from '@/components/ui/Avatar';

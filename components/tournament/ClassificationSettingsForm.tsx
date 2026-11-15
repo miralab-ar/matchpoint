@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ActivityIndicator, Pressable, Modal, ScrollView } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Pressable, Modal, ScrollView } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
 import { useTranslation } from '@/lib/i18n';
 import { useUpdateTournament } from '@/lib/hooks/useTournaments';

@@ -2,13 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   Pressable,
   RefreshControl,
   ActivityIndicator,
 } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from '@/lib/i18n';
 import Colors from '@/constants/Colors';

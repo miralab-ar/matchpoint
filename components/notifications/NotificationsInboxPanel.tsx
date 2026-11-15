@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';

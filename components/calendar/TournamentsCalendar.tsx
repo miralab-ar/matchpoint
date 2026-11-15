@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { View, Text, Pressable, StyleSheet, I18nManager } from 'react-native';
+import { View, Pressable, StyleSheet, I18nManager } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 // IMPORTANT: avoid importing from `react-native-calendars` package root.
 // The root index pulls in CalendarList/NewCalendarList which depends on recyclerlistview,
@@ -16,6 +17,8 @@ import { useTranslation } from '@/lib/i18n';
 import type { Tournament } from '@/types';
 import { eachLocalDayInclusive, formatTournamentDateRange, toISODate } from '@/lib/utils/dateFormat';
 import { useLanguageStore } from '@/store/useLanguageStore';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { fonts, radius, space } from '@/lib/theme/tokens';
 
 /** Behaviour, Metro imports, theme-merge pitfalls: see `docs/TOURNAMENTS_CALENDAR.md`. */
 
@@ -145,7 +148,9 @@ export function TournamentsCalendar({ tournaments }: Props) {
   const router = useRouter();
   const language = useLanguageStore((s) => s.language ?? 'en');
 
-  useEffect(() => {
+  // Set the locale during render (not in an effect) so the weekday header is
+  // localized on the first paint too.
+  useMemo(() => {
     ensureCalendarLocalesConfigured();
     const key = language === 'es' || language === 'it' || language === 'en' ? language : 'en';
     XDate.defaultLocale = key;
@@ -285,9 +290,12 @@ export function TournamentsCalendar({ tournaments }: Props) {
       selectedDotColor: tokens.accent,
       arrowColor: tokens.accent,
       monthTextColor: Colors.text,
-      textMonthFontWeight: '700',
-      textDayFontWeight: '600',
-      textDayHeaderFontWeight: '600',
+      textMonthFontFamily: fonts.displayBoldItalic,
+      textMonthFontSize: 22,
+      textDayFontFamily: fonts.textSemiBold,
+      textDayFontSize: 15,
+      textDayHeaderFontFamily: fonts.textSemiBold,
+      textDayHeaderFontSize: 11,
       /** Reinforce row layout for weekday names (library default; avoids rare flex glitches in scroll parents). */
       ['stylesheet.calendar.header' as string]: {
         week: { marginTop: 7, flexDirection: 'row', justifyContent: 'space-around' },
@@ -353,7 +361,7 @@ export function TournamentsCalendar({ tournaments }: Props) {
               onPress={() => onPressTournament(t)}
               style={({ pressed }) => [
                 styles.tournamentRow,
-                { backgroundColor: tokens.surfaceLight, borderColor: tokens.surfaceLight },
+                { backgroundColor: tokens.surfaceLight, borderLeftColor: tokens.accent },
                 pressed ? { opacity: 0.85 } : null,
               ]}
               accessibilityRole="button"
@@ -371,7 +379,7 @@ export function TournamentsCalendar({ tournaments }: Props) {
             </Pressable>
           ))
         ) : (
-          <Text style={styles.emptyText}>{t('feed.noTournamentsThisMonth')}</Text>
+          <EmptyState compact icon="calendar-clear-outline" title={t('feed.noTournamentsThisMonth')} />
         )}
       </View>
     </View>
@@ -382,9 +390,10 @@ const styles = StyleSheet.create({
   card: {
     alignSelf: 'stretch',
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: radius.lg,
     overflow: 'hidden',
-    marginBottom: 12,
+    marginBottom: space.md,
+    paddingTop: space.xxs,
   },
   calendarAnimClip: {
     width: '100%',
@@ -415,14 +424,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   tournamentRow: {
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 12,
+    paddingVertical: space.sm,
+    paddingHorizontal: space.sm,
+    borderRadius: radius.md,
+    borderLeftWidth: 3,
     backgroundColor: 'transparent',
   },
   tournamentName: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontFamily: fonts.displayBoldItalic,
+    fontSize: 19,
+    textTransform: 'uppercase',
   },
   tournamentMeta: {
     fontSize: 12,

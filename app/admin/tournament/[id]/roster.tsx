@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
-  TextInput,
   Pressable,
   Alert,
 } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from '@/lib/i18n';
 import Colors from '@/constants/Colors';

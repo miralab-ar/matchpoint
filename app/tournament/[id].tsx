@@ -1,6 +1,7 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, Share, Alert, Pressable, Platform, RefreshControl } from 'react-native';
+import { View, StyleSheet, Share, Alert, Pressable, Platform, RefreshControl } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { FlashList } from '@shopify/flash-list';
 import { Ionicons } from '@expo/vector-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -98,8 +99,9 @@ function canJoinDivisionByGender(division: DivisionTab, gender: Gender | string 
 const tournamentNameInCardStyle = {
   // Keep consistent with the selected tab color (see override where rendered).
   color: Colors.text,
-  fontSize: 17,
-  fontWeight: '600',
+  fontSize: 28,
+  lineHeight: 30,
+  fontWeight: '800',
   fontStyle: 'italic',
   textTransform: 'uppercase',
 } as const;
@@ -114,9 +116,9 @@ function TournamentDetailsNavTitle() {
 }
 
 const tournamentDetailsNavTitleStyle = {
-  color: '#e5e5e5',
-  fontSize: 17,
-  fontWeight: '600',
+  color: Colors.text,
+  fontSize: 19,
+  fontWeight: '700',
   fontStyle: 'italic',
   textTransform: 'uppercase',
 } as const;
@@ -2625,34 +2627,27 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  /** Division switch = segmented control (docs/marca.md). */
   divisionTabBar: {
     flexDirection: 'row',
-    gap: 8,
-    position: 'relative',
-    zIndex: 3,
-    marginBottom: -2,
-    paddingHorizontal: 6,
+    gap: 4,
+    padding: 4,
+    marginBottom: 10,
+    borderRadius: 999,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   divisionTab: {
     flex: 1,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
+    borderRadius: 999,
     backgroundColor: 'transparent',
-    borderWidth: 0,
     paddingVertical: 8,
     paddingHorizontal: 10,
     alignItems: 'center',
-    zIndex: 1,
   },
   divisionTabSelected: {
-    backgroundColor: Colors.surface,
-    borderWidth: 1,
-    borderColor: Colors.surfaceLight,
-    borderBottomColor: Colors.surface,
-    zIndex: 4,
-    transform: [{ translateY: -1 }],
+    backgroundColor: Colors.surfaceLight,
   },
   divisionTabLabel: {
     fontSize: 14,
@@ -2720,10 +2715,10 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     backgroundColor: Colors.surface,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
-    marginTop: -2,
+    borderColor: Colors.border,
+    marginTop: 0,
     paddingTop: 10,
     paddingBottom: 6,
     paddingHorizontal: 4,
@@ -2738,7 +2733,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 8,
     paddingHorizontal: 4,
-    borderRadius: 10,
+    borderRadius: 12,
     gap: 4,
   },
   tabItemSelected: {
@@ -2942,22 +2937,22 @@ const styles = StyleSheet.create({
   waitlistExplainer: { fontSize: 13, color: Colors.textMuted, lineHeight: 18, marginBottom: 12 },
   tournamentConfigCard: {
     position: 'relative',
-    borderRadius: 12,
-    marginBottom: 12,
+    borderRadius: 16,
+    marginBottom: 16,
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
     backgroundColor: Colors.surface,
     overflow: 'hidden',
   },
   tournamentConfigContent: {
     position: 'relative',
     zIndex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
   },
   tournamentConfigName: {
     paddingRight: 34,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   tournamentConfigMenuAbs: {
     position: 'absolute',
@@ -2976,8 +2971,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.text,
     lineHeight: 20,
-    fontStyle: 'italic',
-    fontWeight: '700',
+    fontWeight: '500',
     textTransform: 'none',
   },
   tournamentConfigLocationPress: {

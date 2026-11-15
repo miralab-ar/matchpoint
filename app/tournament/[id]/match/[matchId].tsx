@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query';
 import {
   View,
-  Text,
   StyleSheet,
   Pressable,
   Animated,
@@ -11,9 +10,10 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Svg, { Defs, LinearGradient as SvgLinearGradient, Stop, Rect } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
 import { useNetInfo } from '@react-native-community/netinfo';
@@ -49,6 +49,8 @@ import { Pressable as GHPressable, type PressableProps } from 'react-native-gest
 import { MPMark } from '@/components/ui/MPMark';
 import { AppBackgroundGradient } from '@/components/ui/AppBackgroundGradient';
 import { MatchDetailLoadingShell } from '@/components/match/MatchDetailLoadingShell';
+import { Icon } from '@/components/ui/Icon';
+import { fonts } from '@/lib/theme/tokens';
 
 type PressableEvent = Parameters<NonNullable<PressableProps['onPress']>>[0];
 
@@ -375,7 +377,7 @@ export default function EditMatchScreen() {
             },
           ]}
         >
-          <MaterialCommunityIcons name="volleyball" size={22} color={color} />
+          <Icon name="volleyball" size={22} color={color} />
         </Animated.View>
       );
     };
@@ -928,7 +930,7 @@ export default function EditMatchScreen() {
                           <RotatingVolleyBall color="#fff" />
                         ) : (
                           <View pointerEvents="none" style={styles.serveBallIcon}>
-                            <MaterialCommunityIcons name="volleyball" size={22} color="#fff" />
+                            <Icon name="volleyball" size={22} color="#fff" />
                           </View>
                         )
                       ) : null}
@@ -988,7 +990,7 @@ export default function EditMatchScreen() {
                           <RotatingVolleyBall color="#fff" />
                         ) : (
                           <View pointerEvents="none" style={styles.serveBallIcon}>
-                            <MaterialCommunityIcons name="volleyball" size={22} color="#fff" />
+                            <Icon name="volleyball" size={22} color="#fff" />
                           </View>
                         )
                       ) : null}
@@ -1125,7 +1127,7 @@ export default function EditMatchScreen() {
               <>
                 <Text style={styles.setPhaseSep}>·</Text>
                 {matchPhaseSuffix.mode === 'medal' ? (
-                  <MaterialCommunityIcons
+                  <Icon
                     name="medal-outline"
                     size={18}
                     color={
@@ -1695,7 +1697,7 @@ export default function EditMatchScreen() {
               accessibilityLabel={t('tournamentDetail.switchSidesReminder')}
               style={[styles.switchSidesReminderRow, { transform: [{ scale: switchSidesPulse }] }]}
             >
-              <MaterialCommunityIcons name="swap-horizontal" size={25} color="#ffffff" accessible={false} />
+              <Icon name="swap-horizontal" size={25} color="#ffffff" accessible={false} />
               <Text accessible={false} style={[styles.centerText, styles.switchSidesReminder]}>
                 {t('tournamentDetail.switchSidesReminder')}
               </Text>
@@ -1708,7 +1710,7 @@ export default function EditMatchScreen() {
               accessibilityLabel={t('tournamentDetail.matchPointBanner')}
               style={[styles.matchPointBannerRow, { transform: [{ scale: switchSidesPulse }] }]}
             >
-              <MaterialCommunityIcons name="medal" size={25} color={matchPointBannerColor} accessible={false} />
+              <Icon name="medal" size={25} color={matchPointBannerColor} accessible={false} />
               <Text accessible={false} style={[styles.centerText, styles.switchSidesReminder, { color: matchPointBannerColor }]}>
                 {t('tournamentDetail.matchPointBanner')}
               </Text>
@@ -1897,13 +1899,13 @@ const styles = StyleSheet.create({
   endedLegendText: { fontSize: 11, fontWeight: '900', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.8 },
   timerLabels: { flexDirection: 'row', gap: 10, alignItems: 'center', justifyContent: 'center' },
   timerLabel: { fontSize: 10, fontWeight: '900', fontStyle: 'italic', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.8 },
-  timerValue: { fontSize: 18, fontWeight: '900', color: Colors.text, fontStyle: 'italic' },
+  timerValue: { fontSize: 18, fontWeight: '900', color: Colors.text, fontStyle: 'italic', fontVariant: ['tabular-nums'] },
   scoreBoard: {
     flexDirection: 'row',
     borderRadius: 16,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
     backgroundColor: Colors.surface,
   },
   scoreDivider: { width: 1, backgroundColor: Colors.surfaceLight, alignSelf: 'stretch' },
@@ -1940,11 +1942,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.surfaceLight,
   },
   scoreTeam: { fontSize: 13, fontWeight: '900', color: Colors.textSecondary, textTransform: 'uppercase', textAlign: 'center' },
+  /** Scoreboard digits: Barlow Condensed ExtraBold, tabular (docs/marca.md). */
   scorePoints: {
     width: '100%',
-    fontSize: 144,
-    fontWeight: '900',
-    fontStyle: 'italic',
+    fontFamily: fonts.displayExtraBold,
+    fontSize: 172,
+    fontVariant: ['tabular-nums'],
     color: Colors.text,
     textAlign: 'center',
     includeFontPadding: false,

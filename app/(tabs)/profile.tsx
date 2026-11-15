@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, ScrollView, Alert, Pressable } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert, Pressable } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { ThemePresetSelect } from '@/components/ui/ThemePresetSelect';
 import { AppBackgroundGradient } from '@/components/ui/AppBackgroundGradient';
 import Colors from '@/constants/Colors';
+import { fonts, radius, space, type } from '@/lib/theme/tokens';
 import { useUserStore } from '@/store/useUserStore';
 import { getUserDisplayName } from '@/lib/utils/userDisplay';
 import { usersApi } from '@/lib/api';
@@ -178,7 +180,9 @@ export default function ProfileScreen() {
           accessibilityRole="button"
           accessibilityLabel={t('tabs.myEntries')}
         >
-          <Ionicons name="trophy-outline" size={18} color={tokens.accent} />
+          <View style={[styles.menuIcon, { backgroundColor: tokens.accentMuted }]}>
+            <Ionicons name="trophy-outline" size={18} color={tokens.accent} />
+          </View>
           <Text style={styles.menuRowText}>{t('tabs.myEntries')}</Text>
           <Ionicons name="chevron-forward" size={18} color={Colors.textMuted} />
         </Pressable>
@@ -189,7 +193,9 @@ export default function ProfileScreen() {
           accessibilityRole="button"
           accessibilityLabel={t('profile.myData')}
         >
-          <Ionicons name="id-card-outline" size={18} color={tokens.accent} />
+          <View style={[styles.menuIcon, { backgroundColor: tokens.accentMuted }]}>
+            <Ionicons name="id-card-outline" size={18} color={tokens.accent} />
+          </View>
           <Text style={styles.menuRowText}>{t('profile.myData')}</Text>
           <Ionicons name="chevron-forward" size={18} color={Colors.textMuted} />
         </Pressable>
@@ -227,6 +233,8 @@ export default function ProfileScreen() {
           <Button
             title={t('auth.signOut')}
             onPress={handleSignOut}
+            variant="outline"
+            iconLeft="log-out-outline"
             size="sm"
             fullWidth
             disabled={deletingAccount}
@@ -234,7 +242,7 @@ export default function ProfileScreen() {
           <Button
             title={deletingAccount ? t('profile.deleteAccountDeleting') : t('profile.deleteAccount')}
             onPress={handleDeleteAccount}
-            variant="danger"
+            variant="dangerOutline"
             size="sm"
             fullWidth
             disabled={deletingAccount}
@@ -254,7 +262,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   stickyScreenHeader: {
-    paddingHorizontal: 16,
+    paddingHorizontal: space.screen,
     backgroundColor: Colors.background,
     zIndex: 2,
   },
@@ -265,9 +273,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   actionsColumn: {
-    marginTop: 0,
-    marginBottom: 10,
-    gap: 12,
+    marginTop: space.lg,
+    marginBottom: space.xs,
+    gap: space.sm,
   },
   themeHint: {
     marginTop: 0,
@@ -293,9 +301,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   content: {
-    paddingHorizontal: 16,
-    paddingTop: 24,
-    paddingBottom: 32,
+    paddingHorizontal: space.screen,
+    paddingTop: space.lg,
+    paddingBottom: space.xl,
   },
   hydrateSkeleton: {
     alignItems: 'center',
@@ -303,35 +311,43 @@ const styles = StyleSheet.create({
   },
   avatarSection: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: space.xl,
   },
   name: {
-    fontSize: 22,
-    fontWeight: '600',
+    ...type.displayLg,
     color: Colors.text,
-    marginTop: 12,
+    marginTop: space.sm,
+    textTransform: 'uppercase',
   },
   menuRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: space.sm,
+    minHeight: 60,
     backgroundColor: Colors.surface,
-    borderRadius: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    marginBottom: 10,
+    borderRadius: radius.lg,
+    paddingVertical: space.xs,
+    paddingHorizontal: space.sm,
+    marginBottom: space.xs,
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
+  },
+  menuIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   menuRowText: {
     flex: 1,
-    fontSize: 14,
-    fontWeight: '600',
+    fontFamily: fonts.textSemiBold,
+    fontSize: 15,
     color: Colors.text,
   },
   menuRowAdmin: {
     backgroundColor: Colors.surface,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
   },
   menuRowTextAdmin: {
     color: '#ffffff',

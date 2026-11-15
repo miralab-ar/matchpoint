@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, ScrollView, TextInput, Alert, Pressable, Switch } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, StyleSheet, ScrollView, Alert, Pressable, Switch } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { Button } from '@/components/ui/Button';
@@ -27,6 +27,7 @@ import {
   equalTeamCountsForCategories,
 } from '@/components/tournament/ClassificationSettingsForm';
 import { TournamentLocationField } from '@/components/location/TournamentLocationField';
+import { Icon } from '@/components/ui/Icon';
 
 const MIN_DATE = new Date(2000, 0, 1);
 
@@ -455,19 +456,19 @@ export default function CreateTournamentScreen() {
                 accessibilityLabel={opt.label}
               >
                 {opt.id === 'none' ? (
-                  <MaterialCommunityIcons name="medal-outline" size={20} color={selected ? Colors.yellow : Colors.textSecondary} />
+                  <Icon name="medal-outline" size={20} color={selected ? Colors.yellow : Colors.textSecondary} />
                 ) : null}
                 {opt.id === 'gold_silver' ? (
                   <View style={styles.medalRow}>
-                    <MaterialCommunityIcons name="medal-outline" size={20} color={Colors.yellow} />
-                    <MaterialCommunityIcons name="medal-outline" size={20} color={Colors.textSecondary} />
+                    <Icon name="medal-outline" size={20} color={Colors.yellow} />
+                    <Icon name="medal-outline" size={20} color={Colors.textSecondary} />
                   </View>
                 ) : null}
                 {opt.id === 'gold_silver_bronze' ? (
                   <View style={styles.medalRow}>
-                    <MaterialCommunityIcons name="medal-outline" size={20} color={Colors.yellow} />
-                    <MaterialCommunityIcons name="medal-outline" size={20} color={Colors.textSecondary} />
-                    <MaterialCommunityIcons name="medal-outline" size={20} color={BRONZE} />
+                    <Icon name="medal-outline" size={20} color={Colors.yellow} />
+                    <Icon name="medal-outline" size={20} color={Colors.textSecondary} />
+                    <Icon name="medal-outline" size={20} color={BRONZE} />
                   </View>
                 ) : null}
               </Pressable>

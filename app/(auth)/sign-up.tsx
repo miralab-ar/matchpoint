@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, TextInput, Pressable, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { View, StyleSheet, Pressable, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import Colors from '@/constants/Colors';

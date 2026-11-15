@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { Ionicons } from '@expo/vector-icons';
 import { openVenueInMaps } from '@/components/tournament/venueMapShared';
 import type { OrganizerMenuItem } from '@/components/tournament/TournamentOrganizerMenu';

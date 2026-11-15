@@ -1,9 +1,11 @@
 import React, { type ReactNode } from 'react';
-import { ActivityIndicator, Pressable, Text, StyleSheet, View, type StyleProp, type TextStyle } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type TextStyle } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { readableTextOnBackground } from '@/lib/theme/colors';
 import { useTheme } from '@/lib/theme/useTheme';
+import { fonts, motion, radius } from '@/lib/theme/tokens';
 
 type ButtonProps = {
   title: string;
@@ -79,7 +81,6 @@ export function Button({
         variant === 'outline' && styles.outline,
         isDanger && styles.danger,
         isDangerOutline && styles.dangerOutline,
-        (isPrimary || isSecondary || isDanger || isMuted) && styles.elevated,
         pressed && !disabled && styles.pressed,
         disabled && styles.disabled,
       ]}
@@ -123,18 +124,18 @@ export function Button({
 
 const styles = StyleSheet.create({
   button: {
-    minHeight: 48,
+    minHeight: 50,
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 14,
+    borderRadius: radius.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonSm: {
     minHeight: 40,
     paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 12,
+    paddingHorizontal: 16,
+    borderRadius: radius.sm + 2,
   },
   content: {
     flexDirection: 'row',
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   outline: {
     backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
   },
   danger: {
     backgroundColor: Colors.danger,
@@ -173,20 +174,24 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 3,
   },
+  /** Microinteraction: quick press-in (docs/marca.md → Movimiento). */
   pressed: {
-    transform: [{ translateY: 1 }],
-    opacity: 0.94,
+    transform: [{ scale: motion.pressScale }],
+    opacity: 0.92,
   },
   disabled: {
     opacity: 0.5,
   },
+  /** Labels speak in the display face: condensed, uppercase, tracked. */
   text: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontFamily: fonts.displayBold,
+    fontSize: 18,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
   textSm: {
-    fontSize: 13,
-    fontWeight: '800',
+    fontSize: 15,
+    letterSpacing: 0.6,
   },
   loadingTextHidden: {
     opacity: 0,

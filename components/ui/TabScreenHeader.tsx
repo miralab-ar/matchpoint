@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
-import { useTheme } from '@/lib/theme/useTheme';
 import { MPMark } from '@/components/ui/MPMark';
+import { space, type } from '@/lib/theme/tokens';
 
 type TabScreenHeaderProps = {
   title: string;
@@ -10,14 +11,17 @@ type TabScreenHeaderProps = {
   rightAccessory?: React.ReactNode;
 };
 
+/**
+ * Broadcast-style screen header: brand mark + big condensed title, left aligned.
+ * (docs/marca.md → Principios: jerarquía clara, el título dice dónde estás.)
+ */
 export function TabScreenHeader({ title, rightAccessory }: TabScreenHeaderProps) {
-  const { tokens } = useTheme();
   return (
     <View style={styles.row}>
       <View style={styles.logo} pointerEvents="none">
-        <MPMark size={50} accessibilityLabel={title} />
+        <MPMark size={34} accessibilityLabel="Matchpoint" />
       </View>
-      <Text style={[styles.title, { color: tokens.lightText }]} accessible={false}>
+      <Text style={styles.title} numberOfLines={1} accessibilityRole="header">
         {title}
       </Text>
       {rightAccessory ? <View style={styles.rightAccessory}>{rightAccessory}</View> : null}
@@ -28,32 +32,26 @@ export function TabScreenHeader({ title, rightAccessory }: TabScreenHeaderProps)
 const styles = StyleSheet.create({
   row: {
     width: '100%',
-    minHeight: 50,
-    marginBottom: 14,
-    justifyContent: 'center',
+    minHeight: 48,
+    marginBottom: space.sm,
+    flexDirection: 'row',
     alignItems: 'center',
-    position: 'relative',
+    gap: space.sm,
   },
   logo: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    height: 50,
-    width: 50,
+    height: 34,
+    width: 34,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 13,
-    fontWeight: '600',
-    fontStyle: 'italic',
+    ...type.displayLg,
+    flex: 1,
     color: Colors.text,
-    letterSpacing: 0.2,
-    flexShrink: 0,
+    textTransform: 'uppercase',
   },
   rightAccessory: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    height: 50,
+    height: 48,
     justifyContent: 'center',
     alignItems: 'center',
   },

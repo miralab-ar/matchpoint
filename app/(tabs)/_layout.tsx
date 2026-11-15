@@ -7,6 +7,7 @@ import { authApi } from '@/lib/api';
 import { useUserStore } from '@/store/useUserStore';
 import type { User } from '@/types';
 import { useTheme } from '@/lib/theme/useTheme';
+import { fonts } from '@/lib/theme/tokens';
 
 export default function TabLayout() {
   const { t } = useTranslation();
@@ -36,7 +37,13 @@ export default function TabLayout() {
         tabBarShowLabel: true,
         tabBarActiveTintColor: tokens.tabIconSelected,
         tabBarInactiveTintColor: Colors.tabIconDefault,
-        tabBarStyle: { backgroundColor: Colors.surface },
+        tabBarStyle: {
+          backgroundColor: Colors.background,
+          borderTopColor: Colors.border,
+          borderTopWidth: 1,
+          elevation: 0,
+        },
+        tabBarLabelStyle: { fontFamily: fonts.textSemiBold, fontSize: 11, letterSpacing: 0.2 },
         headerStyle: { backgroundColor: Colors.background },
         headerTintColor: Colors.text,
       }}
@@ -46,7 +53,9 @@ export default function TabLayout() {
         options={{
           title: t('tabs.feed'),
           headerShown: false,
-          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'home' : 'home-outline'} size={size - 2} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -54,8 +63,8 @@ export default function TabLayout() {
         options={{
           title: t('tabs.tournaments'),
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="trophy-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'trophy' : 'trophy-outline'} size={size - 2} color={color} />
           ),
         }}
       />
@@ -64,8 +73,8 @@ export default function TabLayout() {
         options={{
           title: t('tabs.profile'),
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'person-circle' : 'person-circle-outline'} size={size} color={color} />
           ),
         }}
       />

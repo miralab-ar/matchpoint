@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
 
 type Gender = 'male' | 'female';

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
 import { Avatar } from '@/components/ui/Avatar';
 

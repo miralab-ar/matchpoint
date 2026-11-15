@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Linking, Platform, RefreshControl } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable, Linking, Platform, RefreshControl } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { WeatherPanelGradientLayer } from '@/components/weather/WeatherPanelGradientLayer';
 import { useFocusEffect } from 'expo-router';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '@/lib/i18n';
@@ -27,6 +28,8 @@ import { entriesApi, tournamentsApi } from '@/lib/api';
 import type { Tournament } from '@/types';
 import { useUserStore } from '@/store/useUserStore';
 import { TournamentsCalendar } from '@/components/calendar/TournamentsCalendar';
+import { Icon } from '@/components/ui/Icon';
+import { fonts, radius, space } from '@/lib/theme/tokens';
 
 function formatHourLabel(iso: string, locale: string): string {
   try {
@@ -269,8 +272,8 @@ export default function FeedScreen() {
                           </View>
                           <View style={styles.hourlyWindBlock}>
                             <View style={styles.hourlyWindSpeedRow}>
-                              <MaterialCommunityIcons
-                                name="weather-windy"
+                              <Icon
+                                name="wind"
                                 size={14}
                                 color={hourColors.wind}
                                 style={styles.hourlyWindIcon}
@@ -342,22 +345,22 @@ const styles = StyleSheet.create({
   screenRoot: { flex: 1, backgroundColor: 'transparent' },
   scrollFill: { flex: 1 },
   stickyScreenHeader: {
-    paddingHorizontal: 16,
+    paddingHorizontal: space.screen,
     backgroundColor: Colors.background,
     zIndex: 2,
   },
-  content: { paddingHorizontal: 16, paddingBottom: 40 },
+  content: { paddingHorizontal: space.screen, paddingBottom: space.xxl },
   weatherMetaBlock: {
     marginBottom: 6,
   },
   weatherCard: {
     position: 'relative',
     backgroundColor: Colors.surface,
-    borderRadius: 12,
+    borderRadius: radius.lg,
     overflow: 'hidden',
-    marginBottom: 12,
+    marginBottom: space.md,
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
   },
   weatherGradientLayer: {
     ...StyleSheet.absoluteFillObject,
@@ -369,7 +372,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: 1,
   },
-  weatherBody: { paddingHorizontal: 10, paddingTop: 8, paddingBottom: 8 },
+  weatherBody: { paddingHorizontal: space.sm, paddingTop: space.sm, paddingBottom: space.xs },
   weatherTopRow: {
     flexDirection: 'row',
     direction: 'ltr',
@@ -380,10 +383,11 @@ const styles = StyleSheet.create({
   },
   tempLeft: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   temp: {
-    fontSize: 34,
-    fontWeight: '200',
+    fontFamily: fonts.displayExtraBold,
+    fontSize: 44,
+    lineHeight: 46,
     color: Colors.text,
-    letterSpacing: -1.2,
+    fontVariant: ['tabular-nums'],
   },
   tempRange: {
     fontSize: 13,
@@ -416,8 +420,9 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   hourlyTime: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
+    fontVariant: ['tabular-nums'],
     color: '#ffffff',
     marginBottom: 0,
     textAlign: 'right',
@@ -477,10 +482,10 @@ const styles = StyleSheet.create({
   },
   skeletonCard: {
     backgroundColor: Colors.surface,
-    borderRadius: 14,
-    padding: 16,
+    borderRadius: radius.lg,
+    padding: space.md,
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
   },
   tournamentEmpty: {
     fontSize: 14,

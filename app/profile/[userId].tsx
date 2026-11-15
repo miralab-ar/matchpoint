@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { Redirect, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from '@/lib/i18n';
 import Colors from '@/constants/Colors';

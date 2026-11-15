@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, StyleSheet, Pressable, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Pressable, RefreshControl, ActivityIndicator } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter, Stack } from 'expo-router';
 import { useTranslation } from '@/lib/i18n';

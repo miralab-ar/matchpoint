@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react';
-import { View, Text, Pressable, StyleSheet, ImageBackground } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Pressable, StyleSheet, ImageBackground } from 'react-native';
+import { Text } from '@/components/ui/Text';
+import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@/lib/i18n';
 import Colors from '@/constants/Colors';
 import { IconButton } from '@/components/ui/IconButton';
@@ -13,11 +14,13 @@ import {
   splitAcrossDivisions,
 } from '@/lib/tournamentGroups';
 import type { Tournament, TournamentDivision } from '@/types';
+import { Icon } from '@/components/ui/Icon';
+import { fonts, radius, space, type } from '@/lib/theme/tokens';
 
 const BRONZE = '#cd7f32';
 
 /** Matches `cardConfigText` so row icons align with label color on the card image. */
-const CARD_CONFIG_ICON_COLOR = 'rgba(255, 255, 255, 0.92)';
+const CARD_CONFIG_ICON_COLOR = 'rgba(255, 255, 255, 0.78)';
 
 const DEFAULT_TOURNAMENT_CARD_BG = require('@/assets/images/tournament-card-bg-bw.png');
 
@@ -59,6 +62,7 @@ function TournamentListRowInner({
   const formattedDate = formatTournamentDate(dateLabel) || '—';
   const pointsConfigText = `${t('tournaments.pointsToWin')}: ${tournament.pointsToWin ?? 21}`;
   const setsConfigText = `${t('tournaments.setsPerMatch')}: ${tournament.setsPerMatch ?? 1}`;
+  const rulesText = `${pointsConfigText}  ·  ${setsConfigText}`;
 
   const cardImageSource = useMemo(() => {
     const url = tournament.coverImageUrl?.trim();
@@ -73,65 +77,57 @@ function TournamentListRowInner({
 
   const body = (
     <>
-      <View
-        style={[
-          variant === 'home' ? styles.homeTitleRow : styles.feedTitleRow,
-          variant === 'home' && hasInvite && onSharePress ? styles.homeTitleRowWithShare : undefined,
-        ]}
-      >
-        <Text style={variant === 'home' ? styles.homeTitle : styles.feedTitle}>{tournament.name}</Text>
+      <View style={[styles.kickerRow, variant === 'home' && hasInvite && onSharePress ? styles.homeTitleRowWithShare : undefined]}>
+        <View style={[styles.dateChip, { backgroundColor: tokens.accent }]}>
+          <Ionicons name="calendar-clear-outline" size={13} color={Colors.background} />
+          <Text style={styles.dateChipText} numberOfLines={1}>
+            {formattedDate}
+          </Text>
+        </View>
         {(tournament.visibility ?? 'public') === 'private' ? (
           <View style={styles.privateBadge}>
+            <Ionicons name="lock-closed-outline" size={11} color={Colors.text} />
             <Text style={styles.privateBadgeText}>{t('tournaments.privateBadge')}</Text>
           </View>
         ) : null}
       </View>
+      <View style={variant === 'home' ? styles.homeTitleRow : styles.feedTitleRow}>
+        <Text style={variant === 'home' ? styles.homeTitle : styles.feedTitle} numberOfLines={2}>
+          {tournament.name}
+        </Text>
+      </View>
       {isCancelled ? (
         <View style={styles.cancelledRow} accessibilityRole="text">
-          <Ionicons name="close-circle" size={16} color={Colors.error} />
+          <Ionicons name="close-circle-outline" size={16} color={Colors.error} />
           <Text style={styles.cancelledBadge}>{t('tournaments.cancelledBadge')}</Text>
         </View>
       ) : null}
       <View style={styles.cardConfigBlock}>
         <View style={styles.cardConfigRow}>
-          <Ionicons name="location-outline" size={18} color={CARD_CONFIG_ICON_COLOR} />
-          <Text style={styles.cardConfigText} numberOfLines={2}>
+          <Ionicons name="location-outline" size={16} color={CARD_CONFIG_ICON_COLOR} />
+          <Text style={styles.cardConfigText} numberOfLines={1}>
             {tournament.location?.trim() || '—'}
           </Text>
         </View>
         <View style={styles.cardConfigRow}>
-          <Ionicons name="calendar-outline" size={18} color={CARD_CONFIG_ICON_COLOR} />
+          <Ionicons name="trophy-outline" size={16} color={CARD_CONFIG_ICON_COLOR} />
           <Text style={styles.cardConfigText} numberOfLines={1}>
-            {formattedDate}
+            {rulesText}
           </Text>
-        </View>
-        <View style={styles.cardConfigRow}>
-          <Ionicons name="trophy-outline" size={18} color={CARD_CONFIG_ICON_COLOR} />
-          <Text style={styles.cardConfigText} numberOfLines={1}>
-            {pointsConfigText}
-          </Text>
-        </View>
-        <View style={styles.cardConfigRow}>
-          <Ionicons name="layers-outline" size={18} color={CARD_CONFIG_ICON_COLOR} />
-          <Text style={styles.cardConfigText} numberOfLines={1}>
-            {setsConfigText}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.categoryMedalsRow}>
-        <View style={styles.categoryMedals}>
-          {tournament.categories?.includes('Gold') ? (
-            <MaterialCommunityIcons name="medal-outline" size={16} color={Colors.yellow} />
-          ) : null}
-          {tournament.categories?.includes('Silver') ? (
-            <MaterialCommunityIcons name="medal-outline" size={16} color={Colors.textSecondary} />
-          ) : null}
-          {tournament.categories?.includes('Bronze') ? (
-            <MaterialCommunityIcons name="medal-outline" size={16} color={BRONZE} />
-          ) : null}
-          {!tournament.categories?.length ? (
-            <MaterialCommunityIcons name="medal-outline" size={16} color={Colors.yellow} />
-          ) : null}
+          <View style={styles.categoryMedals}>
+            {tournament.categories?.includes('Gold') ? (
+              <Icon name="medal-outline" size={16} color={Colors.yellow} />
+            ) : null}
+            {tournament.categories?.includes('Silver') ? (
+              <Icon name="medal-outline" size={16} color={Colors.textSecondary} />
+            ) : null}
+            {tournament.categories?.includes('Bronze') ? (
+              <Icon name="medal-outline" size={16} color={BRONZE} />
+            ) : null}
+            {!tournament.categories?.length ? (
+              <Icon name="medal-outline" size={16} color={Colors.yellow} />
+            ) : null}
+          </View>
         </View>
       </View>
       <View style={styles.divisionStatsContainer}>
@@ -252,55 +248,58 @@ export const TournamentListRow = memo(TournamentListRowInner);
 const styles = StyleSheet.create({
   homeOuter: {
     position: 'relative',
-    marginBottom: 12,
-    borderRadius: 12,
+    marginBottom: space.md,
+    borderRadius: radius.lg,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   homeImageBg: {
     width: '100%',
   },
   homeImage: {
-    borderRadius: 12,
+    borderRadius: radius.lg,
     opacity: 1,
   },
+  /** Dark, slightly warm scrim so the photo reads as texture, not content. */
   cardBgScrim: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(15, 23, 42, 0.52)',
+    backgroundColor: 'rgba(14, 14, 18, 0.72)',
   },
   homeOuterCancelled: {
     borderLeftWidth: 3,
     borderLeftColor: Colors.error,
   },
   homePressable: {
-    padding: 16,
+    padding: space.md + 2,
     position: 'relative',
     zIndex: 1,
   },
   /** Clears the top-right share control only; keeps horizontal padding symmetric for the rest of the card */
   homeTitleRowWithShare: {
-    paddingRight: 28,
+    paddingRight: 36,
   },
   shareCorner: {
     position: 'absolute',
-    top: 8,
-    right: 6,
+    top: 10,
+    right: 8,
     zIndex: 2,
   },
   feedRow: {
-    marginBottom: 10,
+    marginBottom: space.sm,
   },
   feedImageBg: {
-    borderRadius: 14,
+    borderRadius: radius.lg,
     borderWidth: 1,
-    borderColor: Colors.surfaceLight,
+    borderColor: Colors.border,
     overflow: 'hidden',
   },
   feedImage: {
-    borderRadius: 14,
+    borderRadius: radius.lg,
     opacity: 1,
   },
   feedPressable: {
-    padding: 16,
+    padding: space.md,
     position: 'relative',
     zIndex: 1,
   },
@@ -308,52 +307,61 @@ const styles = StyleSheet.create({
     borderLeftWidth: 3,
     borderLeftColor: Colors.error,
   },
-  homeTitleRow: {
+  kickerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 4,
+    gap: space.xs,
+    marginBottom: space.xs,
   },
-  feedTitleRow: {
+  dateChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 4,
-  },
-  homeTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.text,
-    flex: 1,
-    minWidth: 0,
-    textTransform: 'uppercase',
-    fontStyle: 'italic',
-  },
-  feedTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: Colors.text,
-    flex: 1,
-    minWidth: 0,
-    textTransform: 'uppercase',
-    fontStyle: 'italic',
-  },
-  privateBadge: {
+    gap: 5,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.22)',
+    borderRadius: radius.sm - 2,
   },
-  privateBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
+  dateChipText: {
+    fontFamily: fonts.displayBold,
+    fontSize: 14,
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+    color: Colors.background,
+    fontVariant: ['tabular-nums'],
+  },
+  homeTitleRow: {
+    marginBottom: space.xs,
+  },
+  feedTitleRow: {
+    marginBottom: space.xs,
+  },
+  homeTitle: {
+    ...type.displayLg,
+    fontSize: 28,
+    lineHeight: 30,
     color: Colors.text,
     textTransform: 'uppercase',
-    letterSpacing: 0.4,
+  },
+  feedTitle: {
+    ...type.displayMd,
+    fontSize: 24,
+    lineHeight: 26,
+    color: Colors.text,
+    textTransform: 'uppercase',
+  },
+  privateBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: radius.sm - 2,
+    backgroundColor: 'rgba(255, 255, 255, 0.10)',
+  },
+  privateBadgeText: {
+    ...type.label,
+    fontSize: 10,
+    color: Colors.text,
   },
   cancelledRow: {
     flexDirection: 'row',
@@ -368,57 +376,49 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   cardConfigBlock: {
-    marginBottom: 8,
+    marginBottom: space.sm,
     gap: 2,
   },
   cardConfigRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: space.xs,
     paddingVertical: 3,
   },
   cardConfigText: {
     flex: 1,
     minWidth: 0,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 19,
     color: CARD_CONFIG_ICON_COLOR,
-    fontStyle: 'italic',
-    fontWeight: '600',
-  },
-  categoryMedalsRow: {
-    marginBottom: 8,
+    fontWeight: '500',
   },
   categoryMedals: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 2,
   },
-  /** Same hue as `Colors.surface` (#2d2d2d) at 40% opacity; full width to match title / config rows */
   divisionStatsContainer: {
     alignSelf: 'stretch',
-    backgroundColor: 'rgba(45, 45, 45, 0.4)',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginBottom: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    borderRadius: radius.md,
+    paddingVertical: space.sm,
+    paddingHorizontal: space.sm,
     overflow: 'hidden',
   },
   homeStats: {
-    gap: 8,
+    gap: space.sm,
   },
   feedStats: {
-    gap: 8,
+    gap: space.sm,
   },
   divisionStatsSection: {
-    gap: 4,
+    gap: 6,
   },
   divisionStatsTitle: {
-    fontSize: 11,
-    fontWeight: '700',
+    ...type.label,
+    fontSize: 10,
     color: Colors.textSecondary,
-    textTransform: 'uppercase',
-    fontStyle: 'italic',
   },
   divisionStatsTitleMuted: {
     color: Colors.textSecondary,
@@ -426,6 +426,6 @@ const styles = StyleSheet.create({
   cancelledHint: {
     fontSize: 12,
     color: Colors.textMuted,
-    marginTop: 4,
+    marginTop: space.xs,
   },
 });

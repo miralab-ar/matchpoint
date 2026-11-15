@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, View, type TextStyle } from 'react-native';
+import { Alert, StyleSheet, View, type TextStyle } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import * as Location from 'expo-location';
 import { Accuracy } from 'expo-location';
 import { useTranslation } from '@/lib/i18n';

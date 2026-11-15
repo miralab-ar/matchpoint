@@ -13,8 +13,9 @@
  *  6. Optional `userMap`: team A — avatars above the name; team B — avatars below (doubles: two photos).
  */
 import React, { useEffect, useMemo, useRef } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Platform, Animated, Easing } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Pressable, ScrollView, StyleSheet, Platform, Animated, Easing } from 'react-native';
+import { Text } from '@/components/ui/Text';
+import { Ionicons } from '@expo/vector-icons';
 import Svg, { G, Path } from 'react-native-svg';
 import type { Team, TournamentGuestPlayer, User } from '@/types';
 import { guestPlayerIdFromSlot, isGuestPlayerSlot } from '@/lib/playerSlots';
@@ -34,6 +35,7 @@ import {
   bracketRoundTitleDisplay,
   mainBracketColumnHeadings,
 } from '@/lib/knockoutRoundLabel';
+import { Icon } from '@/components/ui/Icon';
 
 // ─── Base dimensions at scale = 1 (compact match cards) ──────────────────────
 const B_MATCH_H  = 54;
@@ -110,10 +112,10 @@ function MedalIcon3D({
         pointerEvents="none"
         style={[styles.medal3DDepth, { left: d, top: d, width: size, height: size }]}
       >
-        <MaterialCommunityIcons name="medal" size={size} color={depthColor} />
+        <Icon name="medal" size={size} color={depthColor} />
       </View>
       <View style={[styles.medal3DFace, { width: size, height: size }]} pointerEvents="none">
-        <MaterialCommunityIcons name="medal" size={size} color={color} />
+        <Icon name="medal" size={size} color={color} />
       </View>
     </View>
   );

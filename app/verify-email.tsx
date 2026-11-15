@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, StyleSheet, Pressable, Platform, Linking } from 'react-native';
+import { View, StyleSheet, Pressable, Platform, Linking } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { useLocalSearchParams } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useTranslation } from '@/lib/i18n';

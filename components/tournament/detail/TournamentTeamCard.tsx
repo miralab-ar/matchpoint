@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Pressable, StyleSheet } from 'react-native';
+import { Text } from '@/components/ui/Text';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { Avatar } from '@/components/ui/Avatar';
 import { IconButton } from '@/components/ui/IconButton';
@@ -8,6 +9,7 @@ import { guestPlayerIdFromSlot, isGuestPlayerSlot } from '@/lib/playerSlots';
 import { resolveRosterSlotLabel } from '@/lib/utils/resolveParticipant';
 import { getTournamentPlayerDisplayName } from '@/lib/utils/userDisplay';
 import type { Team, TournamentCategory, TournamentGuestPlayer, User } from '@/types';
+import { Icon } from '@/components/ui/Icon';
 
 const TEAM_TAB_BRONZE_MEDAL = '#cd7f32';
 
@@ -235,7 +237,7 @@ export function TournamentTeamCard({
                 )
               ) : null}
               {showOutcomeIcons && classificationSummary.category ? (
-                <MaterialCommunityIcons name="medal-outline" size={20} color={medalColor} />
+                <Icon name="medal-outline" size={20} color={medalColor} />
               ) : null}
               <Ionicons name="trophy-outline" size={17} color={Colors.textSecondary} />
               <Text style={styles.teamCardStatNumber}>{classificationSummary.wins}</Text>

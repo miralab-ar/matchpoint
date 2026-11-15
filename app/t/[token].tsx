@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, Platform, Linking, Alert } from 'react-native';
+import { View, StyleSheet, Platform, Linking, Alert } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { Button } from '@/components/ui/Button';

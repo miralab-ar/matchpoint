@@ -1,5 +1,6 @@
 import React from 'react';
-import { Pressable, Text, View, StyleSheet } from 'react-native';
+import { Pressable, View, StyleSheet } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
 
 type Props = {

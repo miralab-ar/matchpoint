@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import i18n, { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, ScrollView, Pressable, Share, Alert, RefreshControl, Animated, Easing, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable, Share, Alert, RefreshControl, Animated, Easing, Platform } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { FlashList } from '@shopify/flash-list';
 import { useQueryClient } from '@tanstack/react-query';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,6 +9,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect, useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { FadeIn } from '@/components/ui/FadeIn';
+import { radius, space, type } from '@/lib/theme/tokens';
+import { readableTextOnBackground } from '@/lib/theme/colors';
 import { TabScreenHeader } from '@/components/ui/TabScreenHeader';
 import { NotificationsInboxButton } from '@/components/notifications/NotificationsInboxButton';
 import { TournamentListRow } from '@/components/tournament/TournamentListRow';
@@ -18,18 +23,6 @@ import { config } from '@/lib/config';
 import { useLanguageStore } from '@/store/useLanguageStore';
 import type { Tournament } from '@/types';
 import { prefetchTournament } from '@/lib/prefetchTournament';
-
-function bumpRgbaAlpha(color: string, delta: number): string {
-  const m = color.match(/^rgba\\((\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*([0-9.]+)\\s*\\)$/i);
-  if (!m) return color;
-  const r = Number(m[1]);
-  const g = Number(m[2]);
-  const b = Number(m[3]);
-  const a = Number(m[4]);
-  if (![r, g, b, a].every((n) => Number.isFinite(n))) return color;
-  const nextA = Math.max(0, Math.min(1, a + delta));
-  return `rgba(${r}, ${g}, ${b}, ${nextA})`;
-}
 
 export default function TournamentsScreen() {
   const queryClient = useQueryClient();
@@ -94,45 +87,34 @@ export default function TournamentsScreen() {
   );
 
   const renderTournamentItem = useCallback(
-    ({ item: tournament }: { item: Tournament }) => (
-      <TournamentListRow
-        variant="home"
-        tournament={tournament}
-        onPressIn={() => prefetchTournament(queryClient, tournament._id)}
-        onPress={() => router.push(`/tournament/${tournament._id}`)}
-        onSharePress={shareTournament}
-      />
+    ({ item: tournament, index }: { item: Tournament; index: number }) => (
+      <FadeIn delay={index * 40}>
+        <TournamentListRow
+          variant="home"
+          tournament={tournament}
+          onPressIn={() => prefetchTournament(queryClient, tournament._id)}
+          onPress={() => router.push(`/tournament/${tournament._id}`)}
+          onSharePress={shareTournament}
+        />
+      </FadeIn>
     ),
     [queryClient, router, shareTournament],
   );
 
   const listEmpty = useCallback(
     () => (
-      <View style={styles.emptyState}>
-        <Ionicons name="trophy-outline" size={34} color={Colors.textMuted} style={{ marginBottom: 10 }} />
-        <Text style={styles.emptyTitle}>{t('admin.noTournaments')}</Text>
-        <View style={{ marginTop: 14 }}>
-          <Pressable
-            style={[
-              styles.emptyFab,
-              {
-                backgroundColor: bumpRgbaAlpha(tokens.accentSecondaryOutline, 0.08),
-                borderColor: tokens.accentSecondaryOutline,
-              },
-            ]}
-            onPress={() => router.push('/tournament/create')}
-            accessibilityRole="button"
-            accessibilityLabel={t('tournaments.create')}
-          >
-            <Text style={[styles.fabText, { color: tokens.accent }]}>{t('tournaments.create')}</Text>
-          </Pressable>
-        </View>
-      </View>
+      <EmptyState
+        icon="trophy-outline"
+        title={t('admin.noTournaments')}
+        actionLabel={t('tournaments.create')}
+        onAction={() => router.push('/tournament/create')}
+      />
     ),
-    [t, router, tokens.accent, tokens.accentSecondaryOutline],
+    [t, router],
   );
 
   const topPad = Math.max(insets.top, 12) + 8;
+  const fabTextColor = readableTextOnBackground(tokens.accent, tokens) === 'light' ? tokens.lightText : tokens.darkText;
   const scrollContentStyle = [styles.scrollContent, { paddingTop: 12 }];
 
   if (isLoading) {
@@ -166,7 +148,14 @@ export default function TournamentsScreen() {
           <TabScreenHeader title={t('tournaments.screenTitle')} rightAccessory={<NotificationsInboxButton />} />
         </View>
         <View style={styles.errorInner}>
-          <Text style={styles.errorText}>{error?.message || t('tournaments.failedToLoad')}</Text>
+          <EmptyState
+            tone="error"
+            icon="cloud-offline-outline"
+            title={t('tournaments.failedToLoad')}
+            message={error?.message}
+            actionLabel={t('common.retry')}
+            onAction={() => void refetch()}
+          />
         </View>
       </View>
     );
@@ -188,18 +177,17 @@ export default function TournamentsScreen() {
         style={styles.scroll}
       />
       <Pressable
-        style={[
+        style={({ pressed }) => [
           styles.fab,
-          {
-            backgroundColor: bumpRgbaAlpha(tokens.accentSecondaryOutline, 0.08),
-            borderColor: tokens.accentSecondaryOutline,
-          },
+          { backgroundColor: tokens.accent, bottom: 24 + Math.max(insets.bottom - 8, 0) },
+          pressed && styles.fabPressed,
         ]}
         onPress={() => router.push('/tournament/create')}
         accessibilityRole="button"
         accessibilityLabel={t('tournaments.create')}
       >
-        <Text style={[styles.fabText, { color: tokens.accent }]}>{t('tournaments.createButton')}</Text>
+        <Ionicons name="add" size={22} color={fabTextColor} />
+        <Text style={[styles.fabText, { color: fabTextColor }]}>{t('tournaments.createButton').replace(/^\+\s*/, '')}</Text>
         <View style={styles.fabShineClip} pointerEvents="none">
           <Animated.View
             style={[
@@ -236,7 +224,7 @@ const styles = StyleSheet.create({
   },
   /** Logo + title + notifications — fixed above scroll so they stay visible. */
   stickyScreenHeader: {
-    paddingHorizontal: 16,
+    paddingHorizontal: space.screen,
     backgroundColor: Colors.background,
     zIndex: 2,
   },
@@ -244,14 +232,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 16,
+    paddingHorizontal: space.screen,
     paddingTop: 0,
-    paddingBottom: 80,
+    paddingBottom: 112,
   },
   cardOuter: {
     position: 'relative',
-    marginBottom: 12,
-    borderRadius: 12,
+    marginBottom: space.sm,
+    borderRadius: radius.lg,
     backgroundColor: Colors.surface,
     overflow: 'hidden',
   },
@@ -261,24 +249,35 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     bottom: 24,
-    right: 24,
-    borderWidth: 2,
+    right: space.screen,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.xxs,
     paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 12,
+    paddingLeft: 18,
+    paddingRight: 22,
+    borderRadius: radius.pill,
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+  },
+  fabPressed: {
+    transform: [{ scale: 0.96 }],
   },
   fabText: {
-    fontSize: 16,
-    fontWeight: '600',
+    ...type.displayMd,
+    fontSize: 20,
+    lineHeight: 22,
     color: Colors.text,
     textTransform: 'uppercase',
-    fontStyle: 'italic',
   },
   fabShineClip: {
     ...StyleSheet.absoluteFillObject,
     overflow: 'hidden',
-    borderRadius: 12,
+    borderRadius: radius.pill,
   },
   fabShine: {
     position: 'absolute',

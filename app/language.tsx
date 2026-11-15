@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { View, StyleSheet, Pressable, Image } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import type { ImageSourcePropType } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';

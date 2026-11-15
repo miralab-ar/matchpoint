@@ -1,7 +1,8 @@
 import React, { useEffect, useId, useRef } from 'react';
-import { View, Text, Pressable, Animated, Easing, StyleSheet, type ViewStyle, Alert } from 'react-native';
+import { View, Pressable, Animated, Easing, StyleSheet, type ViewStyle, Alert } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { FlashList } from '@shopify/flash-list';
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Svg, { Defs, LinearGradient as SvgLinearGradient, Stop, Rect } from 'react-native-svg';
 import type { Team, TournamentGuestPlayer, User } from '@/types';
 import Colors from '@/constants/Colors';
@@ -21,6 +22,7 @@ import {
   estimateCategoryBracketTeamCount,
   resolveKnockoutRoundHeading,
 } from '@/lib/knockoutRoundLabel';
+import { Icon } from '@/components/ui/Icon';
 
 type MatchCategoryTab = 'Gold' | 'Silver' | 'Bronze';
 type MatchSubTab = 'live' | 'classification' | MatchCategoryTab;
@@ -372,7 +374,7 @@ export function FixtureTab({
 
     const liveIcon =
       m.liveStage === 'category' && m.liveCategory ? (
-        <MaterialCommunityIcons
+        <Icon
           name="medal-outline"
           size={16}
           color={liveMedalColor}
@@ -529,7 +531,7 @@ export function FixtureTab({
                   {label}
                 </Text>
               ) : (
-                <MaterialCommunityIcons name="medal-outline" size={15} color={medalColor} />
+                <Icon name="medal-outline" size={15} color={medalColor} />
               )}
             </Pressable>
           );
@@ -605,7 +607,7 @@ export function FixtureTab({
                   variant="primary"
                   size="sm"
                   iconLeftSlot={
-                    <MaterialCommunityIcons
+                    <Icon
                       name="medal-outline"
                       size={16}
                       color={

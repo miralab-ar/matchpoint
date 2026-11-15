@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Pressable, Linking } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Pressable, Linking } from 'react-native';
+import { Text, TextInput } from '@/components/ui/Text';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useTranslation } from '@/lib/i18n';

@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   Platform,
   Pressable,
@@ -14,6 +13,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
 import { useTranslation } from '@/lib/i18n';
 import { formatTournamentDate, toISODate } from '@/lib/utils/dateFormat';

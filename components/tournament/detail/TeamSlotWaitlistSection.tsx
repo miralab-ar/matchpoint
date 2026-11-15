@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import Colors from '@/constants/Colors';
 import { useUsers } from '@/lib/hooks/useUsers';
 import { useTeamSlotWaitlist, useLeaveTeamSlotWaitlist, type TeamSlotWaitlistRow } from '@/lib/hooks/useTeamSlotWaitlist';

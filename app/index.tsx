@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from '@/lib/i18n';
-import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
+import { View, StyleSheet, Animated, Platform } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { useRouter, usePathname } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useUserStore } from '@/store/useUserStore';

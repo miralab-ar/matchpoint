@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import NetInfo from '@react-native-community/netinfo';
 import { useTranslation } from '@/lib/i18n';
 

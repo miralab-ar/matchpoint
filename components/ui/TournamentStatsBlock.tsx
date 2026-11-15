@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@/lib/i18n';
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/lib/theme/useTheme';
+import { fonts } from '@/lib/theme/tokens';
 
 type TournamentStatsBlockProps = {
   currentPlayers: number;
@@ -106,9 +108,7 @@ export function TournamentStatsBlock({
           accessibilityRole="text"
           accessibilityLabel={t('tournaments.statsWaitlist', { count: waitlistCount })}
         >
-          <Text style={[styles.wlIconText, { fontSize: iconSize, lineHeight: iconSize, color: accent }]} numberOfLines={1}>
-            WL
-          </Text>
+          <Ionicons name="hourglass-outline" size={iconSize} color={accent} />
           {showLabels ? (
             <Text style={[labelStyle, { color: wlTextColor }]} numberOfLines={1}>
               {t('tournamentDetail.tabWaitingList')}
@@ -164,9 +164,7 @@ export function TournamentStatsBlock({
         accessibilityLabel={t('tournaments.statsWaitlist', { count: waitlistCount })}
       >
         <View style={iconColStyle}>
-          <Text style={[styles.wlMark, compact && styles.wlMarkCompact, { color: waitlistColor }]}>
-            WL
-          </Text>
+          <Ionicons name="hourglass-outline" size={iconSize} color={waitlistColor} />
         </View>
         <Text style={[lineStyle, { color: muted ? Colors.textSecondary : tokens.accentSecondary }]}>{waitlistCount}</Text>
       </View>
@@ -190,15 +188,18 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingTop: 2,
   },
+  /** Values read like a scoreboard: condensed, tabular figures. */
   hCellLine: {
-    fontSize: 14,
+    fontFamily: fonts.displayBold,
+    fontSize: 18,
+    lineHeight: 20,
     color: Colors.textSecondary,
-    fontWeight: '600',
     textAlign: 'center',
+    fontVariant: ['tabular-nums'],
   },
   hCellLabel: {
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '500',
     textAlign: 'center',
   },
   hCellLabelCompact: {
@@ -217,29 +218,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   line: {
-    fontSize: 14,
+    fontFamily: fonts.displayBold,
+    fontSize: 16,
     color: Colors.textSecondary,
-    fontWeight: '600',
-  },
-  wlMark: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.2,
-    textAlign: 'center',
-  },
-  wlIconText: {
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  wlMarkCompact: {
-    fontSize: 9,
+    fontVariant: ['tabular-nums'],
   },
   lineCompact: {
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 16,
   },
   lineMuted: {
     color: Colors.textSecondary,
-    fontWeight: '500',
   },
 });

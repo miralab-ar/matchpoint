@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/lib/theme/useTheme';
+import { fonts } from '@/lib/theme/tokens';
 
 type MPMarkProps = {
   size?: number;
@@ -17,7 +19,7 @@ export function MPMark({ size = 50, accessibilityLabel }: MPMarkProps) {
       accessibilityRole="image"
       accessibilityLabel={accessibilityLabel ?? 'Matchpoint'}
     >
-      <Text style={[styles.text, { fontSize: Math.round(size * 0.64) }]} numberOfLines={1} adjustsFontSizeToFit>
+      <Text style={[styles.text, { fontSize: Math.round(size * 0.78) }]} numberOfLines={1} adjustsFontSizeToFit>
         <Text
           style={[
             styles.letter,
@@ -55,16 +57,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontWeight: '900',
-    fontStyle: 'italic',
-    // Keep letters tight like the legacy mark.
-    letterSpacing: -4,
+    // Brand display face (docs/marca.md); tight like the legacy mark.
+    fontFamily: fonts.displayExtraBoldItalic,
+    letterSpacing: -1.5,
     includeFontPadding: false,
-    transform: [{ scaleY: 0.85 }],
   },
   letter: {
-    fontWeight: '900',
-    fontStyle: 'italic',
+    fontFamily: fonts.displayExtraBoldItalic,
   },
 });
 
